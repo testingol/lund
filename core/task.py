@@ -154,18 +154,18 @@ def claim_ref(token, proxies=None):
             url=url, headers=headers(token=token), proxies=proxies, timeout=20
         )
         data = response.json()
-        return data
+        claimed = data["claimBalance"]
+        return claimed
     except:
         return None
 
 
 def process_claim_ref(token, proxies=None):
-    status = claim_ref(token=token, proxies=proxies)
-    try:
-        claim_balance = float(status["claimBalance"])
+    claimed = claim_ref(token=token, proxies=proxies)
+    if claimed != "":
+        claim_balance = float(claimed)
         base.log(
             f"{base.white}Auto Claim Ref: {base.green}Success | Added {claim_balance:,} points"
         )
-    except:
-        message = status["message"]
-        base.log(f"{base.white}Auto Claim Ref: {base.red}{message}")
+    else:
+        base.log(f"{base.white}Auto Claim Ref: {base.red}No point from ref")

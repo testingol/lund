@@ -5,7 +5,9 @@ from core.headers import headers
 
 
 def get_token(data, proxies=None):
-    url = "https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP"
+    url = (
+        "https://user-domain.blum.codes/api/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP"
+    )
     payload = {"query": data}
 
     try:
