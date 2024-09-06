@@ -147,7 +147,7 @@ def process_do_task(token, proxies=None):
 
 
 def claim_ref(token, proxies=None):
-    url = "https://gateway.blum.codes/v1/friends/claim"
+    url = "https://user-domain.blum.codes/api/v1/friends/claim"
 
     try:
         response = requests.post(
@@ -162,7 +162,7 @@ def claim_ref(token, proxies=None):
 
 def process_claim_ref(token, proxies=None):
     claimed = claim_ref(token=token, proxies=proxies)
-    if claimed != "":
+    if claimed != "" and claimed is not None:
         claim_balance = float(claimed)
         base.log(
             f"{base.white}Auto Claim Ref: {base.green}Success | Added {claim_balance:,} points"
