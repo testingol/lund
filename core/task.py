@@ -35,7 +35,8 @@ def get_task(token, proxies=None):
             url=url, headers=headers(token=token), proxies=proxies, timeout=20
         )
         data = response.json()
-        return data
+        sub_sections = data[0]["subSections"]
+        return sub_sections
     except:
         return None
 
