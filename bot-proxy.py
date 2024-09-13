@@ -53,7 +53,7 @@ class Blum:
             accounts = json.load(open(self.data_file, "r"))["accounts"]
             num_acc = len(accounts)
             base.log(self.line)
-            base.log(f"{base.green}Numer of accounts: {base.white}{num_acc}")
+            base.log(f"{base.green}Number of accounts: {base.white}{num_acc}")
 
             for no, account in enumerate(accounts):
                 base.log(self.line)

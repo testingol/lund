@@ -28,21 +28,20 @@ def process_check_in(token, proxies=None):
 
 
 def get_task(token, proxies=None):
-    url = "https://game-domain.blum.codes/api/v1/tasks"
+    url = "https://earn-domain.blum.codes/api/v1/tasks"
 
     try:
         response = requests.get(
             url=url, headers=headers(token=token), proxies=proxies, timeout=20
         )
         data = response.json()
-        sub_sections = data[0]["subSections"]
-        return sub_sections
+        return data
     except:
         return None
 
 
 def start_task(token, task_id, proxies=None):
-    url = f"https://game-domain.blum.codes/api/v1/tasks/{task_id}/start"
+    url = f"https://earn-domain.blum.codes/api/v1/tasks/{task_id}/start"
     payload = {}
 
     try:
@@ -60,7 +59,7 @@ def start_task(token, task_id, proxies=None):
 
 
 def claim_task(token, task_id, proxies=None):
-    url = f"https://game-domain.blum.codes/api/v1/tasks/{task_id}/claim"
+    url = f"https://earn-domain.blum.codes/api/v1/tasks/{task_id}/claim"
     payload = {}
 
     try:
@@ -105,18 +104,33 @@ def do_task(token, task_id, task_name, task_status, proxies=None):
 
 
 def process_do_task(token, proxies=None):
-    task_list = get_task(token=token, proxies=proxies)
-    for task_group in task_list:
-        group = task_group["title"]
-        tasks = task_group["tasks"]
-        base.log(f"{base.white}Task Group: {base.yellow}{group}")
-        for task in tasks:
-            if "subTasks" in task.keys():
-                sub_tasks = task["subTasks"]
-                for sub_task in sub_tasks:
-                    task_id = sub_task["id"]
-                    task_name = sub_task["title"]
-                    task_status = sub_task["status"]
+    earn_section = get_task(token=token, proxies=proxies)
+    for earn in earn_section:
+        if len(earn["tasks"]) > 0:
+            task_list = [earn]
+        else:
+            task_list = earn["subSections"]
+        for task_group in task_list:
+            group = task_group["title"]
+            tasks = task_group["tasks"]
+            base.log(f"{base.white}Task Group: {base.yellow}{group}")
+            for task in tasks:
+                if "subTasks" in task.keys():
+                    sub_tasks = task["subTasks"]
+                    for sub_task in sub_tasks:
+                        task_id = sub_task["id"]
+                        task_name = sub_task["title"]
+                        task_status = sub_task["status"]
+                        do_task(
+                            token=token,
+                            task_id=task_id,
+                            task_name=task_name,
+                            task_status=task_status,
+                            proxies=proxies,
+                        )
+                    task_id = task["id"]
+                    task_name = task["title"]
+                    task_status = task["status"]
                     do_task(
                         token=token,
                         task_id=task_id,
@@ -124,27 +138,17 @@ def process_do_task(token, proxies=None):
                         task_status=task_status,
                         proxies=proxies,
                     )
-                task_id = task["id"]
-                task_name = task["title"]
-                task_status = task["status"]
-                do_task(
-                    token=token,
-                    task_id=task_id,
-                    task_name=task_name,
-                    task_status=task_status,
-                    proxies=proxies,
-                )
-            else:
-                task_id = task["id"]
-                task_name = task["title"]
-                task_status = task["status"]
-                do_task(
-                    token=token,
-                    task_id=task_id,
-                    task_name=task_name,
-                    task_status=task_status,
-                    proxies=proxies,
-                )
+                else:
+                    task_id = task["id"]
+                    task_name = task["title"]
+                    task_status = task["status"]
+                    do_task(
+                        token=token,
+                        task_id=task_id,
+                        task_name=task_name,
+                        task_status=task_status,
+                        proxies=proxies,
+                    )
 
 
 def claim_ref(token, proxies=None):

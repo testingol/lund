@@ -52,7 +52,7 @@ class Blum:
             data = open(self.data_file, "r").read().splitlines()
             num_acc = len(data)
             base.log(self.line)
-            base.log(f"{base.green}Numer of accounts: {base.white}{num_acc}")
+            base.log(f"{base.green}Number of accounts: {base.white}{num_acc}")
 
             for no, data in enumerate(data):
                 base.log(self.line)
