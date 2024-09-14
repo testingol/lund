@@ -18,6 +18,7 @@ class Blum:
         # Get file directory
         self.data_file = base.file_path(file_name="data-proxy.json")
         self.config_file = base.file_path(file_name="config.json")
+        self.keyword_file = base.file_path(file_name="keyword.txt")
 
         # Initialize line
         self.line = base.create_line(length=50)
@@ -85,7 +86,11 @@ class Blum:
                         # Do task
                         if self.auto_do_task:
                             base.log(f"{base.yellow}Auto Do Task: {base.green}ON")
-                            process_do_task(token=token, proxies=proxies)
+                            process_do_task(
+                                token=token,
+                                keyword_file=self.keyword_file,
+                                proxies=proxies,
+                            )
                         else:
                             base.log(f"{base.yellow}Auto Do Task: {base.red}OFF")
 
