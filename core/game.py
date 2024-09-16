@@ -54,7 +54,7 @@ def process_play_game(data, proxies=None):
             if game_id:
                 base.log(f"{base.yellow}Playing for 30 seconds...")
                 time.sleep(30)
-                point = random.randint(250, 300)
+                point = random.randint(247, 297)
                 claim = claim_game(
                     token=token, game_id=game_id, point=point, proxies=proxies
                 )
